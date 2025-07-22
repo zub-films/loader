@@ -1,0 +1,29 @@
+name: Loader Pipeline
+
+on:
+  schedule:
+    - cron: '0 * * * *' # запуск каждый час
+  workflow_dispatch:
+
+jobs:
+  run-loader:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: astral-sh/setup-uv@v6
+
+      - name: Run loader script
+        env:
+          GSHEET_ID: ${{ secrets.GSHEET_ID }}
+        run: uv run main.py
+
+      - name: Commit output.json
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add output.json
+          git commit -m "Update output.json [auto]"
+          git push
