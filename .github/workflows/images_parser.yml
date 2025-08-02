@@ -1,0 +1,26 @@
+name: Images parser Pipeline
+
+on:
+  schedule:
+    - cron: '0 * * * *' # запуск каждый час
+  workflow_dispatch:
+
+jobs:
+  run-loader:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: astral-sh/setup-uv@v6
+
+      - name: Run loader script
+        run: uv run images_parser.py
+
+      - name: Commit output.json
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'Update output.json [auto]'
+          branch: ${{ github.ref }}
