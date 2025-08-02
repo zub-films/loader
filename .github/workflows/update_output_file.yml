@@ -1,4 +1,4 @@
-name: Loader Pipeline
+name: Links parser Pipeline
 
 on:
   schedule:
@@ -18,7 +18,7 @@ jobs:
       - name: Run loader script
         env:
           GSHEET_ID: ${{ secrets.GSHEET_ID }}
-        run: uv run main.py
+        run: uv run links_parser.py
 
       - name: Commit output.json
         uses: actions-js/push@master
