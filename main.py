@@ -50,7 +50,7 @@ def merge_lists(row):
             return tmp
         return list()
 
-    return list(set(validate_source("sources_tg") + validate_source("sources_vk")))
+    return sorted(list(set(validate_source("sources_tg") + validate_source("sources_vk"))))
 
 
 def main(sheet_id: str):
@@ -62,6 +62,8 @@ def main(sheet_id: str):
     merged = pd.merge(tg, vk, on="name", how="outer", suffixes=("_tg", "_vk"))
     merged["sources"] = merged.apply(merge_lists, axis=1)
     prepared_data = merged[["name", "sources"]]
+    
+    prepared_data = prepared_data.sort_values("name").reset_index(drop=True)
 
     with open("output.json", "w", encoding="utf-8") as f:
         json.dump(
