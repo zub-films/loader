@@ -65,6 +65,9 @@ def main(dir_path: str, input_path: str) -> None:
     keys = pars_keys(input_path)
     
     undefined_links = get_only_new_keys(dir_path, keys)
+    
+    print(f"All: {len(keys)}\nNew: {len(undefined_links)}")
+    
     processes = []
     
     for i, chunk in enumerate(split_list(undefined_links,3)):
