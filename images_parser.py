@@ -67,7 +67,7 @@ def main(dir_path: str, input_path: str) -> None:
     undefined_links = get_only_new_keys(dir_path, keys)
     processes = []
     
-    for i, chunk in enumerate(split_list(undefined_links)):
+    for i, chunk in enumerate(split_list(undefined_links,3)):
         process = Process(target=worker_process, args=(i+1, chunk, dir_path))
         processes.append(process)
         process.start()
