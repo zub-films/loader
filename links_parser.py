@@ -22,9 +22,12 @@ def load_tabs(sheet_id: str) -> op.Workbook:
 
 
 def clean_name(name: str) -> str:
-    for substr in ["\n", "(запись в тг)", "(запись в вк)", "БАН!!"]:
-        name = name.replace(substr, "")
-    return name.strip()
+    if isinstance(name, str):
+        for substr in ["\n", "(запись в тг)", "(запись в вк)", "БАН!!"]:
+            name = name.replace(substr, "")
+        return name.strip()
+    else:
+        return name
 
 
 def get_all_from_tab(ws) -> pd.DataFrame:
